@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/userModel');
+const jwt = require('jsonwebtoken')
 
 // Create
 exports.createUser = async (req, res) => {
@@ -92,3 +93,32 @@ exports.deleteUser = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+
+exports.login = async (req, res) => {
+  const { user_email, user_password } = req.body
+  try {
+    const user = await User.findOne({ where: { user_email } })
+    if (!user) {
+      return res.status(401).json({ message: 'Invalid email or password' })
+    }
+    const isMatch = await bcrypt.compare(user_password, user.user_password);
+    if (!isMatch) {
+      return res.status(401).json({ message: 'Invalid password' })
+    }
+
+    const token = jwt.sign(
+      { id: user.id, user_email: user.user_email },
+      process.env.JWT_SECRET,
+      { expiresIn: '2h' }
+    )
+
+    res.status(200).json({
+      message: 'Login successful',
+      token,
+      user: { id: user.id, user_email: user.user_email }
+    })
+  } catch (err) {
+    console.error('Login error:', err)
+    res.status(500).json({ message: 'Server error' })
+  }
+}

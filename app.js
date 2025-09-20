@@ -17,7 +17,7 @@ const PORT = process.env.PORT || 3000;
 app.use(bodyParser.json());
 app.use(cors());
 app.use(cors({
-  origin: 'http://localhost:3000'  // your React app URL
+  origin: 'http://localhost:3001'
 }))
 app.use('/api/users', userRoutes);
 app.use('/api/audit-logs', auditLogRoutes);
@@ -29,9 +29,8 @@ app.use('/api/quantity-types', quantityTypeRoutes);
 
 sequelize.sync()
   .then(() => {
-    console.log('Tables synced');
     app.listen(PORT, () => {
-      console.log(`🚀 Server running at http://localhost:${PORT}`);
+      console.log(`Server running at http://localhost:${PORT}`);
     });
   })
   .catch(err => console.error('Sync error:', err));
