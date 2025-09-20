@@ -1,6 +1,11 @@
 const bcrypt = require('bcrypt');
 const User = require('../models/userModel');
-const jwt = require('jsonwebtoken')
+const jwt = require('jsonwebtoken');
+const Product = require('../models/productModel');
+const ParentProduct = require('../models/parentProductModel');
+const Company = require('../models/companyModel');
+const Billing = require('../models/Billing');
+
 
 // Create
 exports.createUser = async (req, res) => {
@@ -122,3 +127,25 @@ exports.login = async (req, res) => {
     res.status(500).json({ message: 'Server error' })
   }
 }
+
+
+exports.getCounts = async (req, res) => {
+  try {
+    const productCount = await Product.count();
+    const parentProductCount = await ParentProduct.count();
+    const companyCount = await Company.count();
+    const billingCount = await Billing.count();
+console.log(
+ productCount,
+)
+    res.json({
+      products: productCount,
+      parentProducts: parentProductCount,
+      companies: companyCount,
+      billings: billingCount,
+    });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Server error' });
+  }
+};

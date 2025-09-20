@@ -9,6 +9,7 @@ const customerRoutes = require('./routes/customerRoutes');
 const parentProductRoutes = require('./routes/parentProductRoutes');
 const productRoutes = require('./routes/productRoutes');
 const quantityTypeRoutes = require('./routes/quantityTypeRoutes');
+const masterRoutes = require('./routes/masterRoutes');
 require('dotenv').config();
 
 const app = express();
@@ -20,6 +21,7 @@ app.use(cors({
   origin: 'http://localhost:3001'
 }))
 app.use('/api/users', userRoutes);
+app.use('/api/masters', masterRoutes);
 app.use('/api/audit-logs', auditLogRoutes);
 app.use('/api/companies', companyRoutes);
 app.use('/api/customers', customerRoutes);
