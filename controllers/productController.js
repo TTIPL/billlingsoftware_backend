@@ -234,6 +234,7 @@ exports.getBillingDetails = async (req, res) => {
             bd.total_amt,
             p.prod_name,
             b.billing_description,
+            c.company_id,
             c.company_name,
             cust.cust_name,
             cust.cust_address,
@@ -269,6 +270,7 @@ exports.getAllBillingDetails = async (req, res) => {
         b.overall_amt,
         b.created_at,
         b.updated_at,
+        c.company_id,
         c.company_name,
         cu.cust_name,
         cu.cust_address
@@ -305,6 +307,8 @@ exports.getReports = async (req, res) => {
         b.created_at,
         b.updated_at,
         c.company_name,
+        c.company_id,
+        cu.cust_name,
         cu.cust_name,
         cu.cust_address
       FROM 
