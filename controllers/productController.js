@@ -99,6 +99,23 @@ exports.deleteProduct = async (req, res) => {
   }
 };
 
+exports.deleteBillingProduct = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const deleted = await Billing.destroy({
+      where: { billing_id: id },
+    });
+
+    if (deleted) {
+      res.json({ message: "Product deleted successfully" });
+    } else {
+      res.status(404).json({ message: "Product not found" });
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 exports.getProductsByParent = async (req, res) => {
   try {
     const { id } = req.params; // parent_id from URL
